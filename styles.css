@@ -70,6 +70,8 @@ body {
   text-transform: uppercase;
   line-height: 1.55;
   color: #000000;
+  flex: 1;
+  min-width: 0;
 }
 
 /* ---------- AWESOME ---------- */
@@ -77,19 +79,16 @@ body {
 .awesome {
   font-family: 'Permanent Marker', cursive;
   font-weight: 400;
-  font-size: clamp(3.5rem, 16.5vw, 13rem);
+  font-size: clamp(2rem, 14.5vw, 13rem);
   line-height: 0.78;
   color: #000000;
   text-align: center;
   width: 100%;
-  margin-top: clamp(-3.5rem, -6vw, -1.5rem);
-  letter-spacing: -0.01em;
+  margin-top: 0;
+  letter-spacing: -0.015em;
   -webkit-text-stroke: clamp(1px, 0.3vw, 3px) #000000;
-  padding: 0 2vw;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0 1vw;
+  overflow-wrap: break-word;
 }
 
 /* ---------- scroll indicator ---------- */
@@ -139,7 +138,6 @@ body {
   }
 
   .awesome {
-    font-size: clamp(2.4rem, 15vw, 5rem);
     margin-top: 0.5rem;
   }
 
