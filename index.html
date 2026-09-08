@@ -11,6 +11,16 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    /* Blocking, synchronous: decide before first paint whether the ink-rip
+       gate has already been torn this session, so a repeat visit never
+       flashes it before script.js can remove it. */
+    try {
+      if (sessionStorage.getItem('inkRipTornV1') === '1') {
+        document.documentElement.classList.add('ink-gate-skip');
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <section class="hero">
@@ -30,5 +40,43 @@
       <span class="scroll-line"></span>
     </div>
   </section>
+
+  <div class="ink-gate" id="inkGate">
+    <p class="ink-gate__hint" id="inkHint">Tear this open</p>
+    <button
+      type="button"
+      class="ink-gate__trigger"
+      id="inkTrigger"
+      aria-label="Tear the screen open to enter the site"
+    >
+      <img
+        class="ink-gate__logo"
+        id="inkLogo"
+        src="assets/logo-ink-alpha.png"
+        alt=""
+        draggable="false"
+      />
+    </button>
+  </div>
+
+  <svg class="ink-seam-glow" id="inkSeamGlow" aria-hidden="true" focusable="false">
+    <polyline id="inkSeamGlowLine" fill="none" />
+  </svg>
+
+  <div class="ink-stamp" id="inkStamp" aria-hidden="true">
+    <svg viewBox="0 0 220 220" class="ink-stamp__ring">
+      <path
+        d="M110 14
+           C 150 10, 196 34, 204 78
+           C 210 116, 198 156, 168 182
+           C 138 208, 90 210, 58 188
+           C 22 164, 8 118, 18 78
+           C 27 42, 66 18, 110 14 Z"
+      />
+    </svg>
+    <span class="ink-stamp__text">RIPPED</span>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

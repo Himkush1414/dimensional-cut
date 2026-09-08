@@ -145,3 +145,189 @@ body {
     overflow-y: auto;
   }
 }
+
+/* ==========================================================================
+   Ink Rip hero-reveal gate
+   ========================================================================== */
+
+:root {
+  --ink-red: #db1314;
+  --ink-black: #0a0a0a;
+}
+
+/* Repeat visit within this session: skip the gate entirely, no flash. */
+html.ink-gate-skip .ink-gate,
+html.ink-gate-skip .ink-seam-glow,
+html.ink-gate-skip .ink-stamp {
+  display: none !important;
+}
+
+.ink-gate {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  z-index: 1000;
+  touch-action: none;
+}
+
+.ink-gate.is-torn-out {
+  display: none;
+}
+
+.ink-gate--piece {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.ink-gate__hint {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #111111;
+  animation: ink-hint-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes ink-hint-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.ink-gate__trigger {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: clamp(20px, 4vw, 48px);
+  margin: 0;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ink-gate__trigger:active {
+  cursor: grabbing;
+}
+
+.ink-gate__trigger:focus-visible {
+  outline: 2px solid var(--ink-red);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.ink-gate__logo {
+  width: clamp(220px, 32vw, 480px);
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* particles flung from the tear */
+.ink-particle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(--ink-black);
+  pointer-events: none;
+  z-index: 1001;
+  will-change: transform, opacity;
+}
+
+.ink-particle--red {
+  background: var(--ink-red);
+}
+
+/* jagged seam glow flash on release */
+.ink-seam-glow {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1002;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.ink-seam-glow polyline {
+  stroke: var(--ink-red);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px var(--ink-red)) drop-shadow(0 0 22px var(--ink-red));
+}
+
+/* confirmation stamp */
+.ink-stamp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1003;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(140px, 20vw, 220px);
+  height: clamp(140px, 20vw, 220px);
+  transform: translate(-50%, -50%) scale(0.4) rotate(-8deg);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.ink-stamp__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ink-stamp__ring path {
+  fill: none;
+  stroke: var(--ink-red);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.ink-stamp__text {
+  position: relative;
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  color: var(--ink-red);
+  letter-spacing: 0.04em;
+  transform: rotate(-6deg);
+}
+
+@media (max-width: 640px) {
+  .ink-gate {
+    gap: 1.1rem;
+  }
+
+  .ink-gate__trigger {
+    padding: 22px;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-gate__hint {
+    animation: none;
+    opacity: 0.85;
+  }
+}
